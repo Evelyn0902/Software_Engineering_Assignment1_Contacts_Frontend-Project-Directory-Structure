@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            position: relative;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .wrapper {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+        }
+
+        .contacts {
+            height: 100%;
+            flex: 1;
+            border-right: 1px solid #ccc;
+        }
+
+        .info {
+            height: 100%;
+            flex: 4;
+        }
+
+        .add {
+            width: 100%;
+            height: 6vh;
+            border-bottom: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .addcontact {
+            width: 1.5vw;
+            height: 1.5vw;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 1vw;
+            background-color: rgb(7, 193, 96);
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .clist {
+            width: 100%;
+            height: 94vh;
+            overflow-y: scroll;
+        }
+
+        .citem {
+            width: 100%;
+            height: 8vh;
+            border-bottom: 1px solid #ccc;
+            padding-left: 1vw;
+            position: relative;
+        }
+
+        .citem:hover {
+            background: rgb(224, 222, 222);
+        }
+
+        .cname {
+            width: 100%;
+            height: 5vh;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 550;
+        }
+
+        .cphone {
+            width: 100%;
+            height: 3vh;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .top-info {
+            width: 100%;
+            height: 10vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .details {
+            width: 100%;
+            height: 90vh;
+            padding-left: 2vw;
+            padding-top: 3vh;
+        }
+
+        .caozuo {
+            position: absolute;
+            height: 100%;
+            width: 5vw;
+            top: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .edit {
+            color: white;
+            background-color: rgb(7, 193, 96);
+            border: none;
+            width: 3vw;
+            height: 1.5vw;
+        }
+
+        .del {
+            color: white;
+            background-color: red;
+            border: none;
+            width: 3vw;
+            height: 1.5vw;
+        }
+
+        .addalert {
+            position: absolute;
+            display: none;
+            width: 30vw;
+            height: 24vw;
+            background-color: #fff;
+            box-shadow: 0px 5px 8px #ccc;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 15vh;
+        }
+
+        .head {
+            width: 100%;
+            height: 7vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .close {
+            width: 1.5vw;
+            height: 1.5vw;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 1vw;
+            cursor: pointer;
+        }
+
+        .close svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .addinfo {
+            width: 100%;
+            padding: 5% 6%;
+        }
+
+        .addinfo div {
+            width: 100%;
+            height: 5vh;
+            display: flex;
+            align-items: center;
+            margin: 2vh;
+        }
+
+        .addinfo div span {
+            flex: 1;
+            height: 100%;
+        }
+
+        .addinfo div input {
+            flex: 3.5;
+            height: 100%;
+            border: 1px solid #ccc;
+        }
+
+        .addbtn {
+            position: absolute;
+            left: 80%;
+            bottom: 3vh;
+            width: 4vw;
+            height: 2vw;
+            color: white;
+            background-color: rgb(7, 193, 96);
+            border: none;
+            border-radius: 2px;
+        }
+
+        .editbtn {
+            position: absolute;
+            left: 80%;
+            bottom: 3vh;
+            width: 4vw;
+            height: 2vw;
+            color: white;
+            background-color: rgb(7, 193, 96);
+            border: none;
+            border-radius: 2px;
+        }
+
+        .editalert {
+            position: absolute;
+            display: none;
+            width: 30vw;
+            height: 24vw;
+            background-color: #fff;
+            box-shadow: 0px 5px 8px #ccc;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 15vh;
+        }
+
+        .editclose {
+            width: 1.5vw;
+            height: 1.5vw;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 1vw;
+            cursor: pointer;
+        }
+
+        .editclose svg {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="contacts">
+            <div class="add">通讯录信息<button class="addcontact">+</button></div>
+            <div class="clist">
+                <!-- <div class="citem">
+                    <div class="cname">姓名：江流不息</div>
+                    <div class="cphone">电话：18888888888</div>
+                    <div class="caozuo">
+                        <button class="edit">编辑</button>
+                        <button class="del" onclick="del()">删除</button>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div class="info">
+            <div class="top-info">详细信息</div>
+            <div class="details">
+                <!-- <h4 class="name">姓名：江流不息</h4>
+                <h4 class="phone">电话：18888888888</h4>
+                <h4 class="email">电子邮件：123456@qq.com</h4>
+                <h4 class="address">地址：中国</h4> -->
+            </div>
+        </div>
+        <div class="addalert">
+            <div class="head">新增联系人
+                <div class="close"><svg t="1729338334989" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" p-id="2335" width="128" height="128">
+                        <path
+                            d="M512 466.944l233.472-233.472a31.744 31.744 0 0 1 45.056 45.056L557.056 512l233.472 233.472a31.744 31.744 0 0 1-45.056 45.056L512 557.056l-233.472 233.472a31.744 31.744 0 0 1-45.056-45.056L466.944 512 233.472 278.528a31.744 31.744 0 0 1 45.056-45.056z"
+                            fill="#5A5A68" p-id="2336"></path>
+                    </svg></div>
+            </div>
+            <div class="addinfo">
+                <div><span>姓名：</span><input type="text" id="addname"></div>
+                <div><span>电话：</span> <input type="text" id="addphone"></div>
+                <div><span>电子邮件：</span> <input type="text" id="addemail"></div>
+                <div><span>地址：</span><input type="text" id="addaddress"></div>
+            </div>
+            <button class="addbtn">添加</button>
+        </div>
+        <div class="editalert">
+            <div class="head">编辑信息
+                <div class="editclose"><svg t="1729338334989" class="icon" viewBox="0 0 1024 1024" version="1.1"
+                        xmlns="http://www.w3.org/2000/svg" p-id="2335" width="128" height="128">
+                        <path
+                            d="M512 466.944l233.472-233.472a31.744 31.744 0 0 1 45.056 45.056L557.056 512l233.472 233.472a31.744 31.744 0 0 1-45.056 45.056L512 557.056l-233.472 233.472a31.744 31.744 0 0 1-45.056-45.056L466.944 512 233.472 278.528a31.744 31.744 0 0 1 45.056-45.056z"
+                            fill="#5A5A68" p-id="2336"></path>
+                    </svg></div>
+            </div>
+            <div class="addinfo">
+                <div><span>姓名：</span><input type="text" id="editname"></div>
+                <div><span>电话：</span> <input type="text" id="editphone"></div>
+                <div><span>电子邮件：</span> <input type="text" id="editemail"></div>
+                <div><span>地址：</span><input type="text" id="editaddress"></div>
+            </div>
+            <button class="editbtn" onclick="editconfirm()">确认</button>
+        </div>
+    </div>
+    <script>
+        let clist = document.querySelector('.clist')
+        const getcontact = () => {
+            var xhr = new XMLHttpRequest();
+            var url = "/contacts"; // 替换为你的API端点
+            xhr.open("GET", url, true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // 请求成功
+                    var data = JSON.parse(xhr.responseText)
+                    console.log(data)
+                    data.forEach(item => {
+                        clist.innerHTML += `
+                            <div class="citem" onclick="details('${item.name}', '${item.phone}', '${item.email}', '${item.address}')">
+                                <div class="cname">姓名：${item.name}</div>
+                                <div class="cphone">电话：${item.phone}</div>
+                                <div class="caozuo">
+                                    <button class="edit" onclick="EDIT('${item.id}', '${item.name}', '${item.phone}', '${item.email}', '${item.address}')">编辑</button>
+                                    <button class="del" onclick="del(${item.id})">删除</button>
+                                </div>
+                            </div>
+                        `
+                    })
+                } else {
+                    // 请求失败
+                    console.error(xhr.statusText);
+                }
+            };
+            xhr.send()
+        }
+        getcontact()
+        const details = (name, phone, email, address) => {
+            document.querySelector('.details').innerHTML = `
+                <h4 class="name">姓名：${name}</h4>
+                <h4 class="phone">电话：${phone}</h4>
+                <h4 class="email">电子邮件：${email}</h4>
+                <h4 class="address">地址：${address}</h4>
+            `
+        }
+        let add = document.querySelector('.addalert')
+        let edit = document.querySelector('.editalert')
+        document.querySelector('.addcontact').addEventListener('click', () => {
+            add.style.display = 'block'
+        })
+        document.querySelector('.close').addEventListener('click', () => {
+            add.style.display = 'none'
+        })
+        // document.querySelector('.edit').addEventListener('click', () => {
+        //     edit.style.display = 'block'
+        // })
+        let ID
+        const EDIT = (id, name, phone, email, address) => {
+            console.log(id, name, phone, email, address)
+            ID = id
+            document.getElementById('editname').value = name
+            document.getElementById('editphone').value = phone
+            document.getElementById('editemail').value = email
+            document.getElementById('editaddress').value = address
+            edit.style.display = 'block'
+        }
+        document.querySelector('.editclose').addEventListener('click', () => {
+            edit.style.display = 'none'
+        })
+        const editconfirm = () => {
+            let name = document.getElementById('editname').value
+            let phone = document.getElementById('editphone').value
+            let email = document.getElementById('editemail').value
+            let address = document.getElementById('editaddress').value
+            var xhr = new XMLHttpRequest();
+            var url = "/edit"; // 替换为你的API端点
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            var data = JSON.stringify({
+                id: ID, name, phone, email, address
+            });
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // 请求成功
+                    var data = xhr.responseText
+                    if (data == 'ok') {
+                        alert('编辑成功！')
+                        location.reload()
+                    }
+                } else {
+                    // 请求失败
+                    console.error(xhr.statusText);
+                }
+            };
+
+            xhr.send(data)
+        }
+        const del = (id) => {
+            let flag = confirm('真的要删除吗？')
+            if (flag) {
+                var xhr = new XMLHttpRequest();
+                var url = "/del"; // 替换为你的API端点
+
+                xhr.open("POST", url, true);
+                xhr.setRequestHeader("Content-Type", "application/json");
+
+                var data = JSON.stringify({
+                    id
+                });
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4 && xhr.status === 200) {
+                        // 请求成功
+                        var data = xhr.responseText
+                        if (data == 'ok') {
+                            alert('删除成功！')
+                            location.reload()
+                        }
+                    } else {
+                        // 请求失败
+                        console.error(xhr.statusText);
+                    }
+                };
+
+                xhr.send(data)
+            }
+        }
+        const ADD = () => {
+            let name = document.getElementById('addname').value
+            let phone = document.getElementById('addphone').value
+            let email = document.getElementById('addemail').value
+            let address = document.getElementById('addaddress').value
+            var xhr = new XMLHttpRequest();
+            var url = "/add"; // 替换为你的API端点
+
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+
+            var data = JSON.stringify({
+                name, phone, email, address
+            });
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    // 请求成功
+                    var data = xhr.responseText
+                    if (data == 'ok') {
+                        alert('添加成功！')
+                        location.reload()
+                    }
+                } else {
+                    // 请求失败
+                    console.error(xhr.statusText);
+                }
+            };
+
+            xhr.send(data)
+        }
+        document.querySelector('.addbtn').addEventListener('click', ADD)
+    </script>
+</body>
+
+</html>
